@@ -1,6 +1,8 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
+// Importing a CSS file from JavaScript tells Vite to bundle it with the app.
+import "./styles.css";
 
 // Entry point: Vite loads this file from index.html. createRoot takes over the
 // <div id="root"> element and React renders the component tree inside it.
