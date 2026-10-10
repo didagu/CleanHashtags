@@ -7,6 +7,8 @@
     "dev": "wrangler dev",
     "cf-typegen": "wrangler types",
     "postinstall": "wrangler types",
+    "db:migrate:local": "wrangler d1 migrations apply hashdetector --local",
+    "db:seed": "pnpm db:migrate:local && node scripts/seed.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
