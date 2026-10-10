@@ -69,6 +69,25 @@ pnpm run deploy       # `run` is required: `pnpm deploy` is a built-in pnpm comm
 
 `ALLOWED_ORIGINS` in `wrangler.jsonc` can stay empty because the app and API share an origin. Keep `GRAPH_API_ENABLED` at `"false"`.
 
+### Automatic deploys
+
+Every push to `master` (that is, every merged PR) runs CI and then, if it passes, the `deploy` job in `.github/workflows/ci.yml`. The job:
+
+1. applies any new D1 migrations to the remote database,
+2. builds the web app and deploys the Worker,
+3. smoke-tests the live URL (`/api/health`, the page and one `/api/check`).
+
+When it succeeds, the commit and its PR get a **View deployment** link, and the run appears under the repo's **Deployments → production**. A red deploy job means the new code is not live, or failed its smoke test.
+
+One-time setup (repo **Settings → Secrets and variables → Actions**):
+
+| Name                    | Kind     | Value                                                                                                         |
+| ----------------------- | -------- | ------------------------------------------------------------------------------------------------------------- |
+| `CLOUDFLARE_API_TOKEN`  | Secret   | A Cloudflare API token with **Account · Workers Scripts · Edit** and **Account · D1 · Edit** for your account |
+| `CLOUDFLARE_ACCOUNT_ID` | Variable | Your Cloudflare account ID (shown by `pnpm exec wrangler whoami`)                                             |
+
+Seeding is not automatic. Run `pnpm db:seed:remote` by hand after changing `seed/hashtags.json`.
+
 ## Project layout
 
 ```
@@ -96,7 +115,7 @@ Planned improvements, roughly in priority order. Everything here must keep hosti
 
 ### CI/CD and deployments
 
-- [ ] **Deploy on merge to `master`.** Add a deploy job using `cloudflare/wrangler-action` with a scoped `CLOUDFLARE_API_TOKEN` secret. The job applies remote D1 migrations, then deploys. Today deploys are run by hand from a laptop.
+- [x] **Deploy on merge to `master`.** Done: the `deploy` job in CI applies remote D1 migrations, deploys and smoke-tests (see [Automatic deploys](#automatic-deploys)).
 - [ ] **Know when new code is live.** Deploy through a GitHub `production` environment whose URL is `https://cleanhashtags.didagou.workers.dev`, so each deployment shows up on the repo and its PR with a "View deployment" link. Add `GET /api/version` returning the deployed git SHA and build time, and show it in the page footer.
 - [ ] **Post-deploy smoke test.** After deploying, poll `/api/version` until it reports the new SHA, then check `/api/health` and a `/api/check` request. Fail the workflow, and so the deployment status, if they don't pass.
 - [ ] **Preview deployments per PR.** Upload a Worker version with `wrangler versions upload` on every PR and comment its preview URL on the PR (free on Workers).

@@ -8,9 +8,11 @@ on:
 permissions:
   contents: read
 
+# Superseded PR runs are cancelled; runs on master always finish, so a deploy
+# is never interrupted halfway.
 concurrency:
   group: ci-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   check:
@@ -32,3 +34,45 @@ jobs:
       - run: pnpm typecheck
       - run: pnpm test
       - run: pnpm build
+
+  deploy:
+    needs: check
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # The environment URL shows as "View deployment" on the commit, the PR and
+    # the repo's Deployments page once this job succeeds.
+    environment:
+      name: production
+      url: https://cleanhashtags.didagou.workers.dev
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Apply D1 migrations
+        run: pnpm --filter @cleanhashtags/api db:migrate:remote
+
+      - name: Build and deploy
+        run: pnpm --filter @cleanhashtags/api run deploy
+
+      - name: Smoke test
+        env:
+          APP_URL: https://cleanhashtags.didagou.workers.dev
+        run: |
+          curl --fail --silent --show-error --retry 5 --retry-all-errors --retry-delay 3 "$APP_URL/api/health"
+          curl --fail --silent --show-error "$APP_URL/" -o /dev/null
+          curl --fail --silent --show-error -X POST "$APP_URL/api/check" \
+            -H 'content-type: application/json' -d '{"hashtags":["alone","sunset"]}' \
+            | grep -q '"status":"reported"'
