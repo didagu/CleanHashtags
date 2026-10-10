@@ -28,7 +28,7 @@ The reasoning behind this approach, including the 2026 calibration that ruled ou
 
 ## Local setup
 
-Requirements: Node 22 (see `.nvmrc`) and pnpm (the version is pinned in `package.json`; `corepack enable` picks it up). No Cloudflare account is needed for local development.
+Requirements: Node 22.18 or newer (see `.nvmrc`; the seed script runs TypeScript directly with Node) and pnpm (the version is pinned in `package.json`; `corepack enable` picks it up). No Cloudflare account is needed for local development.
 
 ```sh
 pnpm i
