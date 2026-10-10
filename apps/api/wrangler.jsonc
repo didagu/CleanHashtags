@@ -13,4 +13,18 @@
       "migrations_dir": "migrations",
     },
   ],
+  // Workers Rate Limiting binding (free plan). period must be 10 or 60 seconds;
+  // keep it in sync with RATE_LIMIT_PERIOD_SECONDS in src/middleware/rate-limit.ts.
+  "ratelimits": [
+    {
+      "name": "CHECK_RATE_LIMITER",
+      "namespace_id": "1001",
+      "simple": { "limit": 20, "period": 60 },
+    },
+  ],
+  "vars": {
+    // Comma-separated origins allowed to call the API cross-origin. The web app is
+    // served by this same Worker, so production needs none.
+    "ALLOWED_ORIGINS": "",
+  },
 }
