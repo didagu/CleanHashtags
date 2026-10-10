@@ -1,4 +1,4 @@
-import type { HashtagStatus } from "@hashdetector/shared";
+import type { HashtagStatus } from "@cleanhashtags/shared";
 
 type StatusInfo = {
   label: string;

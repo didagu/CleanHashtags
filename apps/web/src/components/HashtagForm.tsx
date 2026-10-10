@@ -1,4 +1,4 @@
-import { MAX_TAGS, parseHashtags } from "@hashdetector/shared";
+import { MAX_TAGS, parseHashtags } from "@cleanhashtags/shared";
 import { useId } from "react";
 import type { FormEvent } from "react";
 

@@ -1,4 +1,4 @@
-import type { CheckResponse } from "@hashdetector/shared";
+import type { CheckResponse } from "@cleanhashtags/shared";
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";

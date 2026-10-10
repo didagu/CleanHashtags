@@ -1,5 +1,5 @@
 {
-  "name": "@hashdetector/web",
+  "name": "@cleanhashtags/web",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -11,7 +11,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@hashdetector/shared": "workspace:*",
+    "@cleanhashtags/shared": "workspace:*",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },

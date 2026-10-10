@@ -5,7 +5,7 @@
 
 ## Context
 
-HashDetector was a 2018 PHP app. For each hashtag it fetched `instagram.com/explore/tags/<tag>` and treated `0 Posts` in the meta description as a ban. That signal no longer exists:
+HashDetector (now CleanHashtags) was a 2018 PHP app. For each hashtag it fetched `instagram.com/explore/tags/<tag>` and treated `0 Posts` in the meta description as a ban. That signal no longer exists:
 
 - Logged-out Instagram pages are now an empty JavaScript shell, and `explore/tags` redirects to the login page.
 - We tested `/popular/<tag>/` as a replacement on 2026-10-10 against 28 tags. It does not track bans. Nine of ten real niche tags, and `#sunset`, return "Page isn't available", while half of a 2020 "banned" list renders normally.

@@ -1,4 +1,4 @@
-import type { HashtagStatus } from "@hashdetector/shared";
+import type { HashtagStatus } from "@cleanhashtags/shared";
 import { STATUS_INFO } from "../lib/status";
 
 // The label is always written out, so the status never relies on colour alone.

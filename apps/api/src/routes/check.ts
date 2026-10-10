@@ -4,7 +4,7 @@ import {
   parseHashtags,
   type CheckResponse,
   type CheckResult,
-} from "@hashdetector/shared";
+} from "@cleanhashtags/shared";
 import { Hono } from "hono";
 import type { AppEnv } from "../app";
 import { createHashtagRepository, type HashtagRecord } from "../db/hashtags";

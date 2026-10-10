@@ -1,4 +1,4 @@
-import { ApiError, CheckResponse } from "@hashdetector/shared";
+import { ApiError, CheckResponse } from "@cleanhashtags/shared";
 import { env, exports } from "cloudflare:workers";
 import { beforeEach, describe, expect, it } from "vitest";
 

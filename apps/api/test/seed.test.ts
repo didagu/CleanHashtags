@@ -2,7 +2,7 @@ import {
   HashtagStatus,
   isValidHashtag,
   normalizeHashtag,
-} from "@hashdetector/shared";
+} from "@cleanhashtags/shared";
 import { env } from "cloudflare:workers";
 import { describe, expect, it } from "vitest";
 import { buildSeedStatements, type SeedEntry } from "../scripts/seed-sql.ts";

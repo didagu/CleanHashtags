@@ -1,4 +1,4 @@
-import { ApiError } from "@hashdetector/shared";
+import { ApiError } from "@cleanhashtags/shared";
 import { env, exports } from "cloudflare:workers";
 import { Hono } from "hono";
 import { describe, expect, it, vi } from "vitest";

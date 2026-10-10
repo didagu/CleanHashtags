@@ -22,7 +22,7 @@ export function App() {
   return (
     <div className="page">
       <Header
-        title="HashDetector"
+        title="CleanHashtags"
         tagline="Check your Instagram hashtags before you post."
       />
       <main className="stack">

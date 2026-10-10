@@ -17,7 +17,7 @@ writeFileSync(sqlPath, buildSeedStatements(entries).join("\n") + "\n");
 
 execFileSync(
   "wrangler",
-  ["d1", "execute", "hashdetector", target, "--yes", "--file", sqlPath],
+  ["d1", "execute", "cleanhashtags", target, "--yes", "--file", sqlPath],
   { cwd: root, stdio: "inherit" },
 );
 console.log(`Seeded ${entries.length} hashtags (${target.slice(2)}).`);

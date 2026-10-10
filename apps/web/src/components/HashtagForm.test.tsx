@@ -1,4 +1,4 @@
-import { MAX_TAGS } from "@hashdetector/shared";
+import { MAX_TAGS } from "@cleanhashtags/shared";
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useState } from "react";

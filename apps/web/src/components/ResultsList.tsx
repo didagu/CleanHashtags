@@ -1,4 +1,4 @@
-import type { CheckResponse, CheckResult } from "@hashdetector/shared";
+import type { CheckResponse, CheckResult } from "@cleanhashtags/shared";
 import { useState } from "react";
 import { copyText } from "../lib/clipboard";
 import { STATUS_INFO, STATUS_ORDER } from "../lib/status";

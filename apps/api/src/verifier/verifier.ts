@@ -1,4 +1,4 @@
-import type { HashtagStatus } from "@hashdetector/shared";
+import type { HashtagStatus } from "@cleanhashtags/shared";
 
 /** A live check can only tell "searchable" from "hidden"; it never yields `banned` vs `restricted` nuance. */
 export type VerifiedStatus = Extract<HashtagStatus, "restricted" | "clear">;

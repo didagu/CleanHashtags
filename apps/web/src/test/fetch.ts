@@ -1,4 +1,4 @@
-import type { CheckResponse } from "@hashdetector/shared";
+import type { CheckResponse } from "@cleanhashtags/shared";
 import { vi } from "vitest";
 
 export function jsonResponse(

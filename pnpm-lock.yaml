@@ -193,7 +193,7 @@ importers:
 
   apps/api:
     dependencies:
-      '@hashdetector/shared':
+      '@cleanhashtags/shared':
         specifier: workspace:*
         version: link:../../packages/shared
       hono:
@@ -215,7 +215,7 @@ importers:
 
   apps/web:
     dependencies:
-      '@hashdetector/shared':
+      '@cleanhashtags/shared':
         specifier: workspace:*
         version: link:../../packages/shared
       react:

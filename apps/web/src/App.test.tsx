@@ -16,7 +16,7 @@ describe("App", () => {
     render(<App />);
 
     expect(
-      screen.getByRole("heading", { level: 1, name: "HashDetector" }),
+      screen.getByRole("heading", { level: 1, name: "CleanHashtags" }),
     ).toBeInTheDocument();
   });
 

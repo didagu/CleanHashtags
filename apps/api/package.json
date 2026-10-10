@@ -1,5 +1,5 @@
 {
-  "name": "@hashdetector/api",
+  "name": "@cleanhashtags/api",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -7,13 +7,13 @@
     "dev": "node -e \"require('node:fs').mkdirSync('../web/dist', { recursive: true })\" && wrangler dev",
     "cf-typegen": "wrangler types",
     "postinstall": "wrangler types",
-    "db:migrate:local": "wrangler d1 migrations apply hashdetector --local",
+    "db:migrate:local": "wrangler d1 migrations apply cleanhashtags --local",
     "db:seed": "pnpm db:migrate:local && node scripts/seed.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
   "dependencies": {
-    "@hashdetector/shared": "workspace:*",
+    "@cleanhashtags/shared": "workspace:*",
     "hono": "^4.13.13"
   },
   "devDependencies": {

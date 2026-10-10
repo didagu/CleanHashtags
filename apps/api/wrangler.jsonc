@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "hashdetector",
+  "name": "cleanhashtags",
   "main": "src/index.ts",
   "compatibility_date": "2026-10-10",
   // The React app (apps/web) is built to ../web/dist and served as static assets.
@@ -16,7 +16,7 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "hashdetector",
+      "database_name": "cleanhashtags",
       "migrations_dir": "migrations",
     },
   ],

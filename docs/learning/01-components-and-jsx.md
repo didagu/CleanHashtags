@@ -9,7 +9,7 @@ shows that version). Later steps change some of these files.
 1. The browser loads `apps/web/index.html`. It has an empty `<div id="root">` and one
    `<script type="module" src="/src/main.tsx">`.
 2. In development Vite serves `main.tsx` on demand, compiling TypeScript and JSX on the fly.
-   For production, `pnpm --filter @hashdetector/web build` bundles everything into `apps/web/dist`.
+   For production, `pnpm --filter @cleanhashtags/web build` bundles everything into `apps/web/dist`.
 3. `main.tsx` finds the root element and calls `createRoot(...).render(<App />)`
    (`apps/web/src/main.tsx:7-18`). From then on React owns everything inside `#root`.
 
@@ -57,12 +57,12 @@ component while rendering). If you see a `console.log` print twice, this is why.
 
 `apps/web/src/App.test.tsx` renders `<App />` into a fake DOM (jsdom) with React Testing
 Library and finds the heading by its role, the way a screen reader would. Run them with
-`pnpm --filter @hashdetector/web test`.
+`pnpm --filter @cleanhashtags/web test`.
 
 ## Try this
 
 1. Add a `Footer` component in `src/components/Footer.tsx` that takes a `year: number` prop and
-   renders "© {year} HashDetector". Use it in `App` below `<main>`. Remove the prop from the
+   renders "© {year} CleanHashtags". Use it in `App` below `<main>`. Remove the prop from the
    call site and read the TypeScript error.
 2. In `App.tsx`, remove the `tagline` prop from `<Header />`. Which test still passes, and why
    does `Header.test.tsx` cover the case?

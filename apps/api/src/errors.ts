@@ -1,4 +1,4 @@
-import type { ApiError, ApiErrorCode } from "@hashdetector/shared";
+import type { ApiError, ApiErrorCode } from "@cleanhashtags/shared";
 import type { Context } from "hono";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
 

@@ -1,4 +1,4 @@
-import { ApiError, CheckResponse } from "@hashdetector/shared";
+import { ApiError, CheckResponse } from "@cleanhashtags/shared";
 
 export type ApiErrorKind =
   "network" | "rate_limited" | "bad_request" | "server" | "invalid_response";

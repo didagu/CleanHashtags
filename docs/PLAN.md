@@ -1,4 +1,4 @@
-# HashDetector revamp plan
+# CleanHashtags (formerly HashDetector) revamp plan
 
 Rebuild HashDetector (2018 PHP + jQuery) as a TypeScript app on Cloudflare, with a React frontend.
 Every step below is **one commit**. Steps are ordered so the app builds, lints and tests green after each one.
@@ -78,7 +78,7 @@ Zod schemas + inferred types: `CheckRequest { hashtags: string[] (1..30) }`, `Ha
 ## Milestone 2 — API (Worker)
 
 **Step 6 — `feat(api): Hono worker skeleton`**
-`apps/api` with `wrangler.jsonc` (name `hashdetector`, compatibility date set to today), Hono app, `GET /api/health` → `{ ok: true }`, Vitest with workers pool, `pnpm --filter api dev` runs `wrangler dev`.
+`apps/api` with `wrangler.jsonc` (name `cleanhashtags`, compatibility date set to today), Hono app, `GET /api/health` → `{ ok: true }`, Vitest with workers pool, `pnpm --filter api dev` runs `wrangler dev`.
 
 **Step 7 — `feat(api): D1 schema and seed list`**
 Migration `0001_hashtags.sql`: table `hashtags(tag TEXT PRIMARY KEY, status TEXT CHECK(...), source TEXT, notes TEXT, last_verified_at TEXT, updated_at TEXT)`. `seed/hashtags.json` with a small starter set marked `reported` (source `community-list-2020`, `last_verified_at` null) — include the calibration tags `alone`, `curvygirls`, `dm`, `kissing`, `petite`; a script `pnpm --filter api db:seed` that loads it into local D1. Document the data provenance in `seed/README.md`.

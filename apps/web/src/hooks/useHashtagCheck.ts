@@ -1,4 +1,4 @@
-import type { CheckResponse } from "@hashdetector/shared";
+import type { CheckResponse } from "@cleanhashtags/shared";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { checkHashtags, errorMessage } from "../api/client";
 
