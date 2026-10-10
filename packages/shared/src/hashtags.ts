@@ -6,12 +6,14 @@ export interface ParsedHashtags {
   invalid: string[];
 }
 
-const SEPARATORS = /[\s,]+/u;
+// Includes the fullwidth and ideographic commas typed with CJK keyboards.
+const SEPARATORS = /[\s,，、]+/u;
 const VALID_TAG = /^[\p{L}\p{M}\p{Nd}_]+$/u;
 const ALL_DIGITS = /^\p{Nd}+$/u;
 
 export function normalizeHashtag(raw: string): string {
-  return raw.replace(/^#+/u, "").normalize("NFKC").toLowerCase();
+  // NFKC first, so a fullwidth ＃ becomes # and is stripped too.
+  return raw.normalize("NFKC").replace(/^#+/u, "").toLowerCase();
 }
 
 export function isValidHashtag(tag: string): boolean {
