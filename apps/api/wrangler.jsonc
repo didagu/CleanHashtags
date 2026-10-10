@@ -17,6 +17,7 @@
     {
       "binding": "DB",
       "database_name": "cleanhashtags",
+      "database_id": "71622666-a89a-40bc-98ac-847e37c0a6af",
       "migrations_dir": "migrations",
     },
   ],

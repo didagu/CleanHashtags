@@ -24,7 +24,7 @@ Statuses: `banned` | `restricted` | `reported` (community-reported, unverified) 
 | Language      | TypeScript (strict) everywhere                                                               |
 | Monorepo      | pnpm workspaces                                                                              |
 | API           | Cloudflare Worker + [Hono](https://hono.dev), routes under `/api`                            |
-| Data          | Cloudflare D1 (SQLite) for the list; KV for result cache                                     |
+| Data          | Cloudflare D1 (SQLite) for the list; no KV (see Hosting)                                     |
 | Rate limiting | Workers Rate Limiting binding                                                                |
 | Frontend      | React + Vite, served by the same Worker as static assets (single deploy)                     |
 | Validation    | Zod schemas shared by API and web                                                            |
@@ -32,10 +32,12 @@ Statuses: `banned` | `restricted` | `reported` (community-reported, unverified) 
 | Lint/format   | ESLint (flat config) + Prettier                                                              |
 | CI            | GitHub Actions + Dependabot                                                                  |
 
+Hosting: **must stay \$0**. Cloudflare Workers free plan on the `*.workers.dev` subdomain (no custom domain). Free-tier limits that shape the design: 100k Worker requests/day (static asset requests are free), D1 5M row reads + 100k writes/day, KV only 1,000 writes/day (so no KV cache), and the Cache API has no effect on `workers.dev`. D1 lookups for ≤30 tags are cheap enough to need no cache. Do not add any paid product or binding.
+
 Layout:
 
 ```
-apps/api       Worker (Hono, D1, KV) — also serves apps/web/dist as assets
+apps/api       Worker (Hono, D1) — also serves apps/web/dist as assets
 apps/web       React + Vite
 packages/shared  hashtag parsing + Zod schemas
 docs/          PLAN.md, adr/, learning/
@@ -48,6 +50,7 @@ docs/          PLAN.md, adr/, learning/
 - Use current stable versions installed via `pnpm add` (no hand-pinned old majors).
 - Every frontend step adds a short note in `docs/learning/NN-topic.md`: the React concepts introduced, where they appear in the code (file:line), and one or two "try this" exercises.
 - Nothing is pushed until the owner reviews the branch.
+- Hosting must stay free: no paid Cloudflare products, no custom domain.
 
 ---
 
@@ -83,8 +86,8 @@ Migration `0001_hashtags.sql`: table `hashtags(tag TEXT PRIMARY KEY, status TEXT
 **Step 8 — `feat(api): POST /api/check`**
 Validate body with shared schema (400 with `ApiError` on failure), normalize via `parseHashtags`, one batched D1 query, return a status per tag in input order (`unknown` when absent). Repository module isolated from the route so it is testable. Integration tests against D1 in the workers pool.
 
-**Step 9 — `feat(api): caching, rate limiting, hardening`**
-KV cache per tag (short TTL, e.g. 1h), Rate Limiting binding per client IP on `/api/check` (429 with `Retry-After`), CORS restricted to configured origins, request body size limit, global error handler that never leaks internals, security headers. Tests for 429 and cache hit paths.
+**Step 9 — `feat(api): rate limiting and hardening`**
+Rate Limiting binding (free plan) per client IP on `/api/check` (429 with `Retry-After`), CORS restricted to configured origins, request body size limit, global error handler that never leaks internals, security headers. No KV or other caching (see Hosting). Tests for the 429 path.
 
 ## Milestone 3 — Web (React, learning-oriented)
 
@@ -117,7 +120,7 @@ Workflow on push/PR: pnpm install (cached), lint, typecheck, test, build. `.gith
 `Verifier` interface (`verify(tags) → Promise<VerifiedResult[]>`), `NoopVerifier` (default) and a `GraphApiVerifier` skeleton documenting the `ig_hashtag_search` flow, 30-tags/7-days budget and required permissions — not wired to real calls, disabled unless `GRAPH_API_ENABLED` is set. Tests for the noop path.
 
 **Step 17 — `docs: README, license and contributing`**
-README: what it does, how verdicts work and their limits, local setup (`pnpm i`, `pnpm --filter api db:migrate:local`, seed, `pnpm dev`), deploy steps (`wrangler d1 create`, KV namespace, `wrangler deploy`), project layout, link to learning notes. MIT `LICENSE`. `CONTRIBUTING.md` incl. how to propose list changes with evidence.
+README: what it does, how verdicts work and their limits, local setup (`pnpm i`, `pnpm --filter api db:migrate:local`, seed, `pnpm dev`), deploy steps (`wrangler d1 create`, remote migrations + seed, `wrangler deploy` to the free `workers.dev` subdomain), project layout, link to learning notes. MIT `LICENSE`. `CONTRIBUTING.md` incl. how to propose list changes with evidence.
 
 ## Final — Review
 

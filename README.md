@@ -1,5 +1,7 @@
 # CleanHashtags
 
+Banned & restricted hashtag checker for Instagram. (Formerly HashDetector.)
+
 CleanHashtags tells you which of your Instagram hashtags are known to be banned or restricted, so you can drop them before you post. Paste up to 30 hashtags and get a verdict for each one, with where that verdict comes from and how old it is.
 
 It runs on Cloudflare's free Workers plan: one Worker serves the React app and a small JSON API backed by a D1 database.
@@ -60,10 +62,8 @@ pnpm exec wrangler d1 create cleanhashtags
 Copy the printed `database_id` into the `d1_databases` entry in `apps/api/wrangler.jsonc`, then:
 
 ```sh
-pnpm exec wrangler d1 migrations apply cleanhashtags --remote
-pnpm exec node scripts/seed.ts --remote  # pnpm exec puts wrangler on PATH
-pnpm --filter web build        # the Worker serves apps/web/dist
-pnpm exec wrangler deploy       # publishes to https://cleanhashtags.<your-subdomain>.workers.dev
+pnpm db:seed:remote   # applies remote migrations, then seeds
+pnpm deploy           # builds apps/web and publishes to https://cleanhashtags.<your-subdomain>.workers.dev
 ```
 
 `ALLOWED_ORIGINS` in `wrangler.jsonc` can stay empty because the app and API share an origin. Keep `GRAPH_API_ENABLED` at `"false"`.
