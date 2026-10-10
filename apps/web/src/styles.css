@@ -1,0 +1,306 @@
+/* One global stylesheet. Class names are plain strings in JSX (`className`).
+   Colours are CSS custom properties so dark mode only swaps the values. */
+
+:root {
+  color-scheme: light dark;
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --text: #1d2026;
+  --muted: #5b616b;
+  --border: #d9dde3;
+  --accent: #2b2d42;
+  --accent-text: #ffffff;
+  --danger: #b42318;
+  --danger-bg: #fde2e1;
+  --focus: #3b82f6;
+  --radius: 10px;
+
+  --banned-bg: #fde2e1;
+  --banned-fg: #8a1c14;
+  --restricted-bg: #fdeccf;
+  --restricted-fg: #7a4500;
+  --reported-bg: #fff6c7;
+  --reported-fg: #5c4a00;
+  --clear-bg: #dcf5e3;
+  --clear-fg: #14532d;
+  --unknown-bg: #e8eaee;
+  --unknown-fg: #33373d;
+}
+
+/* Follows the operating system setting; no JavaScript needed. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14161a;
+    --surface: #1d2026;
+    --text: #e8eaee;
+    --muted: #a3a9b3;
+    --border: #343941;
+    --accent: #c7cbe8;
+    --accent-text: #14161a;
+    --danger: #ff8a80;
+    --danger-bg: #3d1714;
+    --focus: #7aa7ff;
+
+    --banned-bg: #4a1612;
+    --banned-fg: #ffb4ab;
+    --restricted-bg: #4a2c06;
+    --restricted-fg: #ffcc80;
+    --reported-bg: #3f3605;
+    --reported-fg: #f5e27a;
+    --clear-bg: #123a22;
+    --clear-fg: #9be3b0;
+    --unknown-bg: #2c3037;
+    --unknown-fg: #d0d4db;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+  line-height: 1.5;
+}
+
+p {
+  margin: 0;
+}
+
+.page {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 2rem;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+main.stack {
+  gap: 1rem;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.75rem;
+}
+
+.header p {
+  color: var(--muted);
+}
+
+.header {
+  margin-bottom: 1.25rem;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.label {
+  font-weight: 600;
+}
+
+.input {
+  width: 100%;
+  font: inherit;
+  color: inherit;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.6rem 0.75rem;
+  resize: vertical;
+}
+
+.input[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.hint-error {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.1rem 0.6rem;
+  font-size: 0.875rem;
+}
+
+.chip-invalid {
+  border-color: var(--danger);
+  color: var(--danger);
+  text-decoration: line-through;
+}
+
+.invalid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.button {
+  font: inherit;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.5rem 1rem;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.button-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+form .button-primary {
+  align-self: flex-start;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.notice {
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.notice-error {
+  background: var(--danger-bg);
+  border-color: var(--danger);
+}
+
+.summary {
+  font-weight: 600;
+}
+
+.results {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.result {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.5rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.result:last-child {
+  border-bottom: none;
+}
+
+.result-tag {
+  word-break: break-all;
+}
+
+.result-meta {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+/* On narrow screens the details go on their own line under the tag. */
+@media (max-width: 30rem) {
+  .result-meta {
+    flex-basis: 100%;
+  }
+}
+
+.badge {
+  border-radius: 999px;
+  padding: 0.05rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.badge-banned {
+  background: var(--banned-bg);
+  color: var(--banned-fg);
+}
+
+.badge-restricted {
+  background: var(--restricted-bg);
+  color: var(--restricted-fg);
+}
+
+.badge-reported {
+  background: var(--reported-bg);
+  color: var(--reported-fg);
+}
+
+.badge-clear {
+  background: var(--clear-bg);
+  color: var(--clear-fg);
+}
+
+.badge-unknown {
+  background: var(--unknown-bg);
+  color: var(--unknown-fg);
+}
+
+.footer {
+  margin-top: 2rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
