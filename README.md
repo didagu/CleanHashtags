@@ -90,6 +90,50 @@ The frontend was built step by step as a React learning project. Each step has a
 4. [Lists, keys and lifting state](docs/learning/04-lists-keys-and-lifting-state.md)
 5. [Custom hooks and styling](docs/learning/05-custom-hooks-and-styling.md)
 
+## Next steps
+
+Planned improvements, roughly in priority order. Everything here must keep hosting at $0.
+
+### CI/CD and deployments
+
+- [ ] **Deploy on merge to `master`.** Add a deploy job using `cloudflare/wrangler-action` with a scoped `CLOUDFLARE_API_TOKEN` secret. The job applies remote D1 migrations, then deploys. Today deploys are run by hand from a laptop.
+- [ ] **Know when new code is live.** Deploy through a GitHub `production` environment whose URL is `https://cleanhashtags.didagou.workers.dev`, so each deployment shows up on the repo and its PR with a "View deployment" link. Add `GET /api/version` returning the deployed git SHA and build time, and show it in the page footer.
+- [ ] **Post-deploy smoke test.** After deploying, poll `/api/version` until it reports the new SHA, then check `/api/health` and a `/api/check` request. Fail the workflow, and so the deployment status, if they don't pass.
+- [ ] **Preview deployments per PR.** Upload a Worker version with `wrangler versions upload` on every PR and comment its preview URL on the PR (free on Workers).
+- [ ] **Make CI a required check.** Add the `check` job as a required status check in the `protect-default-branch` ruleset, so red PRs can't be merged now that approvals are no longer required.
+- [ ] **Faster, clearer CI.** Split lint, typecheck, test and build into parallel jobs, and upload test coverage as a report.
+- [ ] **End-to-end test.** Add a Playwright smoke test that loads the app, checks a few hashtags and copies the result. Run it in CI and against preview URLs.
+- [ ] **Dependabot hygiene.** Auto-merge passing minor and patch updates. Keep `@types/node` in step with the runtime (`.nvmrc` is Node 22 while `@types/node` is 26), either by moving the runtime to the current Node LTS or by ignoring `@types/node` majors.
+- [ ] **Releases and changelog.** Use release-please (or similar) to tag releases and keep a `CHANGELOG.md` from conventional commits.
+
+### Security and operations
+
+- [ ] Turn on secret scanning, push protection and Dependabot security updates, which are currently disabled, and add CodeQL scanning.
+- [ ] Add `SECURITY.md` with a way to report vulnerabilities.
+- [ ] Uptime check: a scheduled GitHub Actions job that hits `/api/health` and opens an issue if it fails.
+- [ ] Watch for abuse in Workers Logs. If needed, add Cloudflare Turnstile (free) in front of `/api/check` and tune the rate limit (20 requests per minute per IP).
+
+### Data quality
+
+- [ ] **Verify the seed list.** All 24 seed tags are `reported` (unverified, from 2020-era lists). Check each one, record `last_verified_at`, and promote or drop it.
+- [ ] **List curation workflow.** Accept list changes through a GitHub issue template that asks for evidence, plus a script that applies approved changes to D1.
+- [ ] **Live verification.** Implement `GraphApiVerifier` against `ig_hashtag_search` (needs an Instagram Business/Creator account and Meta app review), with users connecting their own account. Every verified result should update the shared list.
+
+### Product
+
+- [ ] Suggest replacement hashtags for banned or restricted ones.
+- [ ] SEO basics: Open Graph and Twitter meta tags, a share image, `robots.txt`, `sitemap.xml`.
+- [ ] Privacy-friendly usage stats with Cloudflare Web Analytics (free, no cookies).
+- [ ] Accessibility audit (keyboard, screen reader, contrast) and a Lighthouse check in CI.
+- [ ] Browser extension that checks hashtags inside Instagram's caption box, using the same API.
+
+### Repository
+
+- [ ] Move to TypeScript 7 once `typescript-eslint` supports it (held at 6.0 today).
+- [ ] Issue and PR templates, plus `CODEOWNERS`.
+- [ ] Learning notes: replace line-number references with permalinks to the commit each note was written for, so they don't go stale.
+- [ ] Optional, not free: a custom domain (`cleanhashtags.com` was unregistered as of October 2026).
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md), including how to propose changes to the hashtag list.
