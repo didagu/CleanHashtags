@@ -4,9 +4,11 @@ import type { FormEvent } from "react";
 
 type HashtagFormProps = {
   onSubmit: (tags: string[]) => void;
+  // True while a check is in flight: blocks double submissions.
+  busy?: boolean;
 };
 
-export function HashtagForm({ onSubmit }: HashtagFormProps) {
+export function HashtagForm({ onSubmit, busy = false }: HashtagFormProps) {
   // The only stored state is what the user typed. React re-renders this
   // component every time setText is called with a new value.
   const [text, setText] = useState("");
@@ -15,7 +17,7 @@ export function HashtagForm({ onSubmit }: HashtagFormProps) {
   // kept in separate state, so it can never get out of sync with the textarea.
   const { tags, invalid } = parseHashtags(text);
   const overLimit = tags.length > MAX_TAGS;
-  const canSubmit = tags.length > 0 && !overLimit;
+  const canSubmit = tags.length > 0 && !overLimit && !busy;
 
   // useId gives stable unique ids to connect the label and hints to the textarea.
   const id = useId();
@@ -78,7 +80,7 @@ export function HashtagForm({ onSubmit }: HashtagFormProps) {
       )}
 
       <button type="submit" disabled={!canSubmit}>
-        Check hashtags
+        {busy ? "Checking…" : "Check hashtags"}
       </button>
     </form>
   );
