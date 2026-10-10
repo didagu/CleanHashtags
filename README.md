@@ -63,7 +63,8 @@ Copy the printed `database_id` into the `d1_databases` entry in `apps/api/wrangl
 
 ```sh
 pnpm db:seed:remote   # applies remote migrations, then seeds
-pnpm deploy           # builds apps/web and publishes to https://cleanhashtags.<your-subdomain>.workers.dev
+pnpm run deploy       # `run` is required: `pnpm deploy` is a built-in pnpm command
+                      # builds apps/web and publishes to https://cleanhashtags.<your-subdomain>.workers.dev
 ```
 
 `ALLOWED_ORIGINS` in `wrangler.jsonc` can stay empty because the app and API share an origin. Keep `GRAPH_API_ENABLED` at `"false"`.
