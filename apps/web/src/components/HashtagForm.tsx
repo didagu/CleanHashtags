@@ -36,10 +36,13 @@ export function HashtagForm({
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor={id}>Hashtags</label>
+    <form className="card stack" onSubmit={handleSubmit}>
+      <label className="label" htmlFor={id}>
+        Hashtags
+      </label>
       {/* Controlled input: React owns the value, onChange reports each edit. */}
       <textarea
+        className="input"
         id={id}
         value={text}
         onChange={(event) => onTextChange(event.target.value)}
@@ -48,34 +51,42 @@ export function HashtagForm({
         aria-describedby={`${hintId} ${counterId}`}
         aria-invalid={overLimit}
       />
-      <p id={hintId}>
+      <p className="hint" id={hintId}>
         Separate hashtags with spaces, commas or new lines. The # is optional.
       </p>
 
-      <p id={counterId} aria-live="polite">
+      <p
+        id={counterId}
+        className={overLimit ? "hint hint-error" : "hint"}
+        aria-live="polite"
+      >
         {tags.length}/{MAX_TAGS} hashtags
         {overLimit && ` (remove ${tags.length - MAX_TAGS} to check)`}
       </p>
 
       {tags.length > 0 && (
-        <ul aria-label="Hashtags to check">
+        <ul className="chips" aria-label="Hashtags to check">
           {/* Each tag is unique after parsing, so it works as a stable key. */}
           {tags.map((tag) => (
-            <li key={tag}>#{tag}</li>
+            <li key={tag} className="chip">
+              #{tag}
+            </li>
           ))}
         </ul>
       )}
 
       {invalid.length > 0 && (
-        <div>
+        <div className="invalid">
           <p>
             {invalid.length === 1
               ? "This is not a valid hashtag and will be skipped:"
               : "These are not valid hashtags and will be skipped:"}
           </p>
-          <ul aria-label="Invalid hashtags">
+          <ul className="chips" aria-label="Invalid hashtags">
             {invalid.map((token) => (
-              <li key={token}>{token}</li>
+              <li key={token} className="chip chip-invalid">
+                {token}
+              </li>
             ))}
           </ul>
           <p>
@@ -84,7 +95,11 @@ export function HashtagForm({
         </div>
       )}
 
-      <button type="submit" disabled={!canSubmit}>
+      <button
+        className="button button-primary"
+        type="submit"
+        disabled={!canSubmit}
+      >
         {busy ? "Checking…" : "Check hashtags"}
       </button>
     </form>

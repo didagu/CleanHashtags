@@ -7,7 +7,7 @@ type HeaderProps = {
 
 export function Header({ title, tagline }: HeaderProps) {
   return (
-    <header>
+    <header className="header">
       <h1>{title}</h1>
       {/* `&&` renders the paragraph only when a tagline was passed. */}
       {tagline && <p>{tagline}</p>}

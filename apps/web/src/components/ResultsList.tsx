@@ -42,10 +42,10 @@ export function ResultsList({ response, onReset }: ResultsListProps) {
   }
 
   return (
-    <section aria-labelledby="results-heading">
+    <section className="card stack" aria-labelledby="results-heading">
       <h2 id="results-heading">Results</h2>
 
-      <p>
+      <p className="summary">
         Checked {results.length} {results.length === 1 ? "hashtag" : "hashtags"}
         :{" "}
         {counts
@@ -54,30 +54,33 @@ export function ResultsList({ response, onReset }: ResultsListProps) {
         .
       </p>
 
-      <ul aria-label="Results">
+      <ul className="results" aria-label="Results">
         {/* key: the hashtag is unique within one response and stable. */}
         {results.map((result) => {
           const fresh = freshness(result, checkedAt);
           return (
-            <li key={result.hashtag}>
-              <strong>#{result.hashtag}</strong>{" "}
+            <li key={result.hashtag} className="result">
+              <strong className="result-tag">#{result.hashtag}</strong>{" "}
               <StatusBadge status={result.status} />
-              {result.source && <span> Source: {result.source}.</span>}
-              {fresh && <span> {fresh}.</span>}
+              <span className="result-meta">
+                {result.source && <span> Source: {result.source}.</span>}
+                {fresh && <span> {fresh}.</span>}
+              </span>
             </li>
           );
         })}
       </ul>
 
-      <div>
+      <div className="actions">
         <button
+          className="button button-primary"
           type="button"
           onClick={() => void handleCopy()}
           disabled={safeTags.length === 0}
         >
           Copy safe hashtags ({safeTags.length})
         </button>{" "}
-        <button type="button" onClick={onReset}>
+        <button className="button" type="button" onClick={onReset}>
           Reset
         </button>
       </div>
@@ -89,12 +92,13 @@ export function ResultsList({ response, onReset }: ResultsListProps) {
       </p>
       {copyState === "failed" && (
         <textarea
+          className="input"
           aria-label="Safe hashtags"
           readOnly
           value={safeTags.join(" ")}
         />
       )}
-      <p>
+      <p className="hint">
         Safe means Clear or Unknown. Unknown hashtags are not in our list, which
         is not a guarantee.
       </p>
