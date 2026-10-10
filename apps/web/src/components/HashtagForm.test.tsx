@@ -1,13 +1,24 @@
 import { MAX_TAGS } from "@hashdetector/shared";
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { useState } from "react";
 import { describe, expect, it, vi } from "vitest";
 import { HashtagForm } from "./HashtagForm";
+
+// HashtagForm is controlled by its parent, so tests give it a parent that
+// holds the text, like App does.
+function Harness(props: {
+  onSubmit: (tags: string[]) => void;
+  busy?: boolean;
+}) {
+  const [text, setText] = useState("");
+  return <HashtagForm text={text} onTextChange={setText} {...props} />;
+}
 
 function setup() {
   const onSubmit = vi.fn<(tags: string[]) => void>();
   const user = userEvent.setup();
-  render(<HashtagForm onSubmit={onSubmit} />);
+  render(<Harness onSubmit={onSubmit} />);
   return {
     onSubmit,
     user,
@@ -91,7 +102,7 @@ describe("HashtagForm", () => {
   it("blocks submission while busy", async () => {
     const onSubmit = vi.fn<(tags: string[]) => void>();
     const user = userEvent.setup();
-    render(<HashtagForm onSubmit={onSubmit} busy />);
+    render(<Harness onSubmit={onSubmit} busy />);
 
     await user.type(screen.getByLabelText("Hashtags"), "travel{enter}");
 
@@ -99,5 +110,18 @@ describe("HashtagForm", () => {
     expect(button).toBeDisabled();
     await user.click(button);
     expect(onSubmit).not.toHaveBeenCalled();
+  });
+
+  it("shows the text it is given", () => {
+    render(
+      <HashtagForm
+        text="#from #parent"
+        onTextChange={vi.fn()}
+        onSubmit={vi.fn()}
+      />,
+    );
+
+    expect(screen.getByLabelText("Hashtags")).toHaveValue("#from #parent");
+    expect(screen.getByText(`2/${MAX_TAGS} hashtags`)).toBeInTheDocument();
   });
 });

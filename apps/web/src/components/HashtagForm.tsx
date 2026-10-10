@@ -1,18 +1,23 @@
 import { MAX_TAGS, parseHashtags } from "@hashdetector/shared";
-import { useId, useState } from "react";
+import { useId } from "react";
 import type { FormEvent } from "react";
 
 type HashtagFormProps = {
+  // The text lives in the parent (App) so it can clear it on Reset. The form
+  // shows `text` and reports edits through onTextChange.
+  text: string;
+  onTextChange: (text: string) => void;
   onSubmit: (tags: string[]) => void;
   // True while a check is in flight: blocks double submissions.
   busy?: boolean;
 };
 
-export function HashtagForm({ onSubmit, busy = false }: HashtagFormProps) {
-  // The only stored state is what the user typed. React re-renders this
-  // component every time setText is called with a new value.
-  const [text, setText] = useState("");
-
+export function HashtagForm({
+  text,
+  onTextChange,
+  onSubmit,
+  busy = false,
+}: HashtagFormProps) {
   // Everything below is derived from `text` on each render instead of being
   // kept in separate state, so it can never get out of sync with the textarea.
   const { tags, invalid } = parseHashtags(text);
@@ -37,7 +42,7 @@ export function HashtagForm({ onSubmit, busy = false }: HashtagFormProps) {
       <textarea
         id={id}
         value={text}
-        onChange={(event) => setText(event.target.value)}
+        onChange={(event) => onTextChange(event.target.value)}
         rows={5}
         placeholder="#travel #sunset #foodie"
         aria-describedby={`${hintId} ${counterId}`}
