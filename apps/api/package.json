@@ -1,0 +1,25 @@
+{
+  "name": "@cleanhashtags/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "cf-typegen": "wrangler types",
+    "postinstall": "wrangler types",
+    "db:migrate:local": "wrangler d1 migrations apply cleanhashtags --local",
+    "db:seed": "pnpm db:migrate:local && node scripts/seed.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@cleanhashtags/shared": "workspace:*",
+    "hono": "^4.13.13"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-plugin": "^1.4.0",
+    "@types/node": "^22.20.5",
+    "vitest": "^5.0.3",
+    "wrangler": "^4.149.0"
+  }
+}
