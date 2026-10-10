@@ -2,8 +2,8 @@
 
 Step 14 moves the request logic out of `App` into a custom hook, fixes the "late response"
 problem from note 03, and gives the app a stylesheet with a responsive layout, dark mode and
-a footer. Line numbers refer to the code as of this step's commit (`git show <sha>:<path>`
-shows that version).
+a footer. Line numbers refer to the code as of this step's commit (`3d11065`;
+`git show 3d11065:<path>` shows that version).
 
 ## Custom hooks
 

@@ -1,6 +1,8 @@
 # 01 — Components, JSX and how Vite boots React
 
-Step 10 adds `apps/web`, a React + Vite app with one component and a smoke test.
+Step 10 adds `apps/web`, a React + Vite app with one component and a smoke test. Line
+numbers refer to the code as of this step's commit (`28ad26d`; `git show 28ad26d:<path>`
+shows that version). Later steps change some of these files.
 
 ## How the page starts
 
