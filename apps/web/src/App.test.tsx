@@ -45,9 +45,9 @@ describe("App", () => {
     );
 
     const results = await screen.findByRole("list", { name: "Results" });
-    expect(results).toHaveTextContent("#travel: unknown");
-    expect(results).toHaveTextContent("#alone: reported");
-    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    expect(results).toHaveTextContent("#travel Unknown");
+    expect(results).toHaveTextContent("#alone Reported");
+    expect(screen.queryByText(/Checking/)).not.toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: "Check hashtags" }),
     ).toBeEnabled();
@@ -76,5 +76,19 @@ describe("App", () => {
     expect(await screen.findByRole("alert")).toHaveTextContent(
       "Could not reach the server.",
     );
+  });
+
+  it("clears the text and results on Reset", async () => {
+    mockFetch().mockResolvedValue(
+      jsonResponse(checkResponse([{ hashtag: "travel", status: "unknown" }])),
+    );
+
+    await submit("travel");
+    await userEvent.click(await screen.findByRole("button", { name: "Reset" }));
+
+    expect(screen.getByLabelText("Hashtags")).toHaveValue("");
+    expect(
+      screen.queryByRole("heading", { name: "Results" }),
+    ).not.toBeInTheDocument();
   });
 });
