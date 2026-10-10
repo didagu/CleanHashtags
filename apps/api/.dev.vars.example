@@ -1,0 +1,4 @@
+# Copy to .dev.vars for local `wrangler dev`. In production use `wrangler secret put <NAME>`.
+# Only needed once the Graph API verifier is implemented and GRAPH_API_ENABLED is "true".
+GRAPH_API_ACCESS_TOKEN=
+GRAPH_API_IG_USER_ID=

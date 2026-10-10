@@ -33,5 +33,9 @@
     // Comma-separated origins allowed to call the API cross-origin. The web app is
     // served by this same Worker, so production needs none.
     "ALLOWED_ORIGINS": "",
+    // Live verification through the Instagram Graph API (src/verifier). Stub only:
+    // keep "false". Enabling it also needs the GRAPH_API_ACCESS_TOKEN and
+    // GRAPH_API_IG_USER_ID secrets (see .dev.vars.example).
+    "GRAPH_API_ENABLED": "false",
   },
 }
