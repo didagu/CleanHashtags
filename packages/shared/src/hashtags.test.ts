@@ -25,6 +25,13 @@ describe("parseHashtags", () => {
     ]);
   });
 
+  it("splits on fullwidth and ideographic commas", () => {
+    expect(parseHashtags("＃東京，＃大阪、京都")).toEqual({
+      tags: ["東京", "大阪", "京都"],
+      invalid: [],
+    });
+  });
+
   it("strips one or more leading #", () => {
     expect(parseHashtags("#travel ##food ###sun").tags).toEqual([
       "travel",
@@ -114,6 +121,10 @@ describe("parseHashtags", () => {
 describe("normalizeHashtag", () => {
   it("strips leading # and lowercases", () => {
     expect(normalizeHashtag("##InstaGood")).toBe("instagood");
+  });
+
+  it("strips a fullwidth ＃ typed with CJK keyboards", () => {
+    expect(normalizeHashtag("＃Ａlone")).toBe("alone");
   });
 });
 
