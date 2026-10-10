@@ -2,7 +2,7 @@
 
 Step 13 replaces the plain results list with `ResultsList`: a status badge per hashtag,
 source and freshness, a summary, "Copy safe hashtags" and Reset. Line numbers refer to the
-code as of this step's commit (`git show <sha>:<path>` shows that version).
+code as of this step's commit (`d2dfe3a`; `git show d2dfe3a:<path>` shows that version).
 
 ## Rendering lists
 

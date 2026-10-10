@@ -2,7 +2,9 @@
 
 Step 11 adds `HashtagForm` (`apps/web/src/components/HashtagForm.tsx`): a textarea that
 parses hashtags as you type, shows them as a list, counts them against the 30-tag limit
-and flags invalid ones.
+and flags invalid ones. Line numbers refer to the code as of this step's commit
+(`782b4b9`; `git show 782b4b9:<path>` shows that version). Later steps change some of these
+files: in step 13 the `text` state moves up into `App` (note 04).
 
 ## useState
 
