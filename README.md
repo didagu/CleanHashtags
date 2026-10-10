@@ -1,5 +1,7 @@
 # CleanHashtags
 
+Banned & restricted hashtag checker for Instagram. (Formerly HashDetector.)
+
 CleanHashtags tells you which of your Instagram hashtags are known to be banned or restricted, so you can drop them before you post. Paste up to 30 hashtags and get a verdict for each one, with where that verdict comes from and how old it is.
 
 It runs on Cloudflare's free Workers plan: one Worker serves the React app and a small JSON API backed by a D1 database.
