@@ -87,4 +87,17 @@ describe("HashtagForm", () => {
 
     expect(onSubmit).toHaveBeenCalledExactlyOnceWith(["one", "two"]);
   });
+
+  it("blocks submission while busy", async () => {
+    const onSubmit = vi.fn<(tags: string[]) => void>();
+    const user = userEvent.setup();
+    render(<HashtagForm onSubmit={onSubmit} busy />);
+
+    await user.type(screen.getByLabelText("Hashtags"), "travel{enter}");
+
+    const button = screen.getByRole("button", { name: "Checking…" });
+    expect(button).toBeDisabled();
+    await user.click(button);
+    expect(onSubmit).not.toHaveBeenCalled();
+  });
 });
