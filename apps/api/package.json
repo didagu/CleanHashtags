@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "wrangler dev",
+    "dev": "node -e \"require('node:fs').mkdirSync('../web/dist', { recursive: true })\" && wrangler dev",
     "cf-typegen": "wrangler types",
     "postinstall": "wrangler types",
     "db:migrate:local": "wrangler d1 migrations apply cleanhashtags --local",
