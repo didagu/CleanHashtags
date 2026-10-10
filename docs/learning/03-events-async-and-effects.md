@@ -2,7 +2,7 @@
 
 Step 12 connects the form to the API. Submitting now sends `POST /api/check`, shows a
 loading message, then either the results or an error. Line numbers refer to the code as of
-this step's commit (`git show <sha>:<path>` shows that version).
+this step's commit (`ff41dd5`; `git show ff41dd5:<path>` shows that version).
 
 ## A typed API client
 
