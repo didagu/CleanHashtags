@@ -5,7 +5,11 @@ import { beforeEach, describe, expect, it } from "vitest";
 function check(body: unknown) {
   return exports.default.fetch("http://localhost/api/check", {
     method: "POST",
-    headers: { "content-type": "application/json" },
+    // A fresh IP per request keeps these tests clear of the rate limiter.
+    headers: {
+      "content-type": "application/json",
+      "cf-connecting-ip": crypto.randomUUID(),
+    },
     body: typeof body === "string" ? body : JSON.stringify(body),
   });
 }
