@@ -20,9 +20,9 @@
     "hono": "^4.13.13"
   },
   "devDependencies": {
-    "@cloudflare/vitest-plugin": "^1.4.0",
-    "@types/node": "^26.6.4",
-    "vitest": "^5.0.3",
+    "@cloudflare/vitest-plugin": "^1.4.2",
+    "@types/node": "^26.6.5",
+    "vitest": "^5.0.4",
     "wrangler": "^4.149.0"
   }
 }
